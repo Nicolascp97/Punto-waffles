@@ -513,7 +513,55 @@ const ZZ = {
   ],
   getProducts(){ try{return JSON.parse(localStorage.getItem(this.KEYS.PRODUCTS))||this.DEFAULT_PRODUCTS}catch{return this.DEFAULT_PRODUCTS} },
   saveProducts(p){ localStorage.setItem(this.KEYS.PRODUCTS,JSON.stringify(p)) },
-  getOrders(){ try{return JSON.parse(localStorage.getItem(this.KEYS.ORDERS))||[]}catch{return[]} },
+  getOrders(){ 
+    try {
+      let orders = JSON.parse(localStorage.getItem(this.KEYS.ORDERS));
+      if (!orders || orders.length === 0) return this.generateDummyOrders();
+      return orders;
+    } catch { return this.generateDummyOrders(); }
+  },
+  generateDummyOrders() {
+    const orders = [];
+    const now = new Date();
+    const tipos = ['caja', 'llevar', 'mesa'];
+    const metodos = ['efectivo', 'tarjeta', 'app', 'tarjeta', 'tarjeta'];
+    const estados = ['entregado', 'entregado', 'entregado', 'entregado', 'pendiente', 'preparando'];
+    const prods = this.DEFAULT_PRODUCTS;
+    
+    // Generar ~80 ordenes simuladas para los reportes
+    for(let i=0; i<85; i++) {
+        // Distribución ponderada hacia hoy (daysAgo = 0)
+        const daysAgo = Math.floor(Math.pow(Math.random(), 1.5) * 7); 
+        const d = new Date(now);
+        d.setDate(now.getDate() - daysAgo);
+        d.setHours(8 + Math.floor(Math.random()*12), Math.floor(Math.random()*60));
+        
+        const numItems = 1 + Math.floor(Math.random()*4);
+        const orderProds = [];
+        let total = 0;
+        for(let j=0; j<numItems; j++){
+            const p = prods[Math.floor(Math.random()*prods.length)];
+            const qty = 1 + Math.floor(Math.random()*2);
+            orderProds.push({ id: p.id, nombre: p.nombre, precio: p.precio, qty, categoria: p.categoria });
+            total += p.precio * qty;
+        }
+        
+        const tipo = tipos[Math.floor(Math.random()*3)];
+        orders.push({
+            id: 'ORD-MOCK-' + (1000+i),
+            productos: orderProds,
+            total: total,
+            tipo: tipo,
+            metodoPago: metodos[Math.floor(Math.random()*metodos.length)],
+            estado: daysAgo > 0 ? 'entregado' : estados[Math.floor(Math.random()*estados.length)],
+            mesa: tipo === 'mesa' ? Math.floor(1+Math.random()*15) : (tipo === 'llevar' ? 'Para Llevar' : 'Mostrador'),
+            timestamp: d.toISOString(),
+            horaDisplay: d.toLocaleTimeString('es-CL',{hour:'2-digit',minute:'2-digit'})
+        });
+    }
+    this.saveOrders(orders.sort((a,b) => new Date(b.timestamp) - new Date(a.timestamp)));
+    return orders;
+  },
   saveOrders(o){ localStorage.setItem(this.KEYS.ORDERS,JSON.stringify(o)) },
   updateOrderStatus(id,estado){ const o=this.getOrders(),t=o.find(x=>x.id===id); if(t){t.estado=estado;this.saveOrders(o)} },
   addOrder(order){ const o=this.getOrders(); o.unshift(order); this.saveOrders(o) },
