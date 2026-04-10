@@ -1,5 +1,7 @@
 import { motion } from 'framer-motion'
-import { WAFFLES_SALADO, PRICE_SALADO } from '../../game-data/menu'
+import { WAFFLES_SALADO } from '../../game-data/menu'
+
+const PRICE = 6200
 
 export default function StepSalado({ selected, onSelect, onNext }) {
   return (
@@ -12,20 +14,13 @@ export default function StepSalado({ selected, onSelect, onNext }) {
         </p>
       </div>
 
-      {/* Price badge */}
-      <div className="flex items-center gap-3 w-fit">
-        <div
-          className="flex items-center gap-2 px-4 py-2 rounded-full border-2 font-black text-[15px]"
-          style={{
-            borderColor: 'var(--primary)',
-            color: 'var(--primary)',
-            background: 'var(--primary-light)',
-          }}
-        >
-          <span>💰</span>
-          <span>${PRICE_SALADO.toLocaleString('es-CL')}</span>
-        </div>
-        <span className="text-[13px] font-bold text-[var(--text-muted)]">c/u</span>
+      {/* Precio info */}
+      <div
+        className="flex items-center gap-2 px-4 py-2 rounded-full border-2 font-black text-[14px] w-fit"
+        style={{ borderColor: 'var(--primary)', color: 'var(--primary)', background: 'var(--primary-light)' }}
+      >
+        <span>💰</span>
+        <span>Todos a ${PRICE.toLocaleString('es-CL')}</span>
       </div>
 
       {/* Cards */}
@@ -67,16 +62,24 @@ export default function StepSalado({ selected, onSelect, onNext }) {
                 {/* Text */}
                 <div className="flex-1 min-w-0 pt-0.5">
                   <div className="flex items-start justify-between gap-2">
-                    <h3
-                      className={`text-[22px] leading-tight font-normal ${isSelected ? 'text-white' : 'text-[var(--chocolate)]'}`}
-                      style={{ fontFamily: 'var(--font-display)' }}
-                    >
-                      {waffle.label}
-                    </h3>
+                    <div className="flex-1 min-w-0">
+                      <h3
+                        className={`text-[22px] leading-tight font-normal ${isSelected ? 'text-white' : 'text-[var(--chocolate)]'}`}
+                        style={{ fontFamily: 'var(--font-display)' }}
+                      >
+                        {waffle.label}
+                      </h3>
+                      {/* Price */}
+                      <span
+                        className={`text-[15px] font-black leading-none ${isSelected ? 'text-white/90' : 'text-[var(--primary)]'}`}
+                      >
+                        ${PRICE.toLocaleString('es-CL')}
+                      </span>
+                    </div>
                     {/* Check indicator */}
                     <div
                       className={`
-                        w-6 h-6 rounded-full border-2 flex items-center justify-center shrink-0 mt-0.5
+                        w-6 h-6 rounded-full border-2 flex items-center justify-center shrink-0 mt-1
                         transition-all duration-200
                         ${isSelected ? 'bg-white border-white' : 'border-[var(--border-strong)] border-opacity-40 bg-transparent'}
                       `}
