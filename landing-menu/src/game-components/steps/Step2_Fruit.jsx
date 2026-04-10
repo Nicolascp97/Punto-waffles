@@ -33,15 +33,16 @@ export default function Step2_Fruit({ selected, onSelect, onNext }) {
 
       <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-4 pb-24 lg:pb-0">
         {FRUITS.map(item => (
-          <IngredientCard
-            key={item.id}
-            label={item.label}
-            color={item.color}
-            emoji={item.emoji}
-            selected={current.includes(item.id)}
-            onClick={() => handleSelect(item.id)}
-            multi={true}
-          />
+          <div key={item.id} className="bg-white rounded-2xl p-3 shadow-sm border border-green-100 hover:border-green-300 transition-all duration-200">
+            <IngredientCard
+              label={item.label}
+              color={item.color}
+              emoji={item.emoji}
+              selected={current.includes(item.id)}
+              onClick={() => handleSelect(item.id)}
+              multi={true}
+            />
+          </div>
         ))}
       </div>
 

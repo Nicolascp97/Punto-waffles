@@ -12,23 +12,26 @@ export default function Step5_Sauce({ selected, onSelect, onNext }) {
       </div>
 
       <div className="grid grid-cols-1 sm:grid-cols-2 gap-4 pb-24 lg:pb-0">
-        
-        <IngredientCard
-          label="Sin salsa extra"
-          emoji="🚫"
-          selected={selected === 'sin_salsa'}
-          onClick={() => onSelect('sin_salsa')}
-        />
+
+        <div className="bg-white rounded-2xl p-3 shadow-sm border border-red-100 hover:border-red-300 transition-all duration-200">
+          <IngredientCard
+            label="Sin salsa extra"
+            emoji="🚫"
+            selected={selected === 'sin_salsa'}
+            onClick={() => onSelect('sin_salsa')}
+          />
+        </div>
 
         {SAUCES.map(item => (
-          <IngredientCard
-            key={item.id}
-            label={item.label}
-            color={item.color}
-            emoji={item.emoji}
-            selected={selected === item.id}
-            onClick={() => onSelect(item.id)}
-          />
+          <div key={item.id} className="bg-white rounded-2xl p-3 shadow-sm border border-red-100 hover:border-red-300 transition-all duration-200">
+            <IngredientCard
+              label={item.label}
+              color={item.color}
+              emoji={item.emoji}
+              selected={selected === item.id}
+              onClick={() => onSelect(item.id)}
+            />
+          </div>
         ))}
       </div>
 

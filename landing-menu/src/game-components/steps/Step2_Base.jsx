@@ -13,15 +13,16 @@ export default function Step2_Base({ selected, onSelect, onNext }) {
 
       <div className="grid grid-cols-1 sm:grid-cols-2 gap-4 pb-24 lg:pb-0">
         {BASES.map(item => (
-          <IngredientCard
-            key={item.id}
-            label={item.label}
-            desc={item.desc}
-            color={item.color}
-            emoji={item.emoji}
-            selected={selected === item.id}
-            onClick={() => onSelect(item.id)}
-          />
+          <div key={item.id} className="bg-white rounded-2xl p-3 shadow-sm border border-orange-100 hover:border-orange-300 transition-all duration-200">
+            <IngredientCard
+              label={item.label}
+              desc={item.desc}
+              color={item.color}
+              emoji={item.emoji}
+              selected={selected === item.id}
+              onClick={() => onSelect(item.id)}
+            />
+          </div>
         ))}
       </div>
 
