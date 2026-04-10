@@ -1,50 +1,189 @@
+@import url('https://fonts.googleapis.com/css2?family=Nunito:wght@400;600;700;800;900&family=Pacifico&display=swap');
 @tailwind base;
 @tailwind components;
 @tailwind utilities;
 
-* {
+:root {
+  /* === PUNTO WAFFLES — Brand Palette === */
+
+  /* Backgrounds */
+  --bg:            #FFF8F0;   /* cream-50 — same as landing */
+  --surface:       #ffffff;
+  --card:          #fffcf5;
+  --border:        #ffd5b0;   /* warm orange-tinted border */
+  --border-strong: #FF6B2C;   /* naranja-waffle */
+
+  /* Text */
+  --text:          #1A0F00;   /* cafe-dark */
+  --text-muted:    #8B5E3C;
+  --text-light:    #c4a882;
+
+  /* Brand */
+  --primary:       #FF6B2C;   /* naranja-waffle — same as landing */
+  --primary-dark:  #E0501A;
+  --primary-light: #FFF0E6;
+  --honey:         #FFB347;
+  --chocolate:     #1A0F00;
+  --frambuesa:     #D4006A;   /* raspberry — same as landing */
+  --frambuesa-light: #fce7f3;
+
+  /* Status */
+  --success:       #22c55e;
+  --success-light: #f0fdf4;
+
+  /* Fonts */
+  --font-body:    'Nunito', sans-serif;
+  --font-display: 'Pacifico', cursive;  /* same as landing hero */
+
+  /* Radius */
+  --radius-sm:   8px;
+  --radius-md:   12px;
+  --radius-lg:   16px;
+  --radius-xl:   24px;
+  --radius-2xl:  32px;
+  --radius-full: 9999px;
+
+  /* Shadows */
+  --shadow-xs:   0 1px 3px rgba(255, 107, 44, 0.08);
+  --shadow-sm:   0 2px 8px rgba(255, 107, 44, 0.12);
+  --shadow-md:   0 4px 16px rgba(255, 107, 44, 0.16);
+  --shadow-card: 0 2px 10px rgba(255, 107, 44, 0.08), 0 0 0 1px rgba(255, 213, 176, 0.5);
+}
+
+*, *::before, *::after {
   margin: 0;
   padding: 0;
   box-sizing: border-box;
 }
 
-html {
-  scroll-behavior: smooth;
-}
+html { scroll-behavior: smooth; }
 
 body {
-  background-color: #FFF8F0;
-  color: #2D1A00;
-  font-family: "Nunito", sans-serif;
+  font-family: var(--font-body);
+  background: var(--bg);
+  color: var(--text);
+  font-size: 16px;
+  line-height: 1.6;
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
   overflow-x: hidden;
 }
 
-/* Custom scrollbar */
-::-webkit-scrollbar {
-  width: 8px;
-  height: 8px;
+#root { min-height: 100dvh; }
+
+/* ==============================
+   BUTTON COMPONENTS
+============================== */
+
+.btn-primary {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  gap: 8px;
+  padding: 16px 32px;
+  background: var(--primary);
+  color: white;
+  font-family: var(--font-body);
+  font-weight: 900;
+  font-size: 16px;
+  border: none;
+  border-radius: var(--radius-full);
+  cursor: pointer;
+  transition: all 0.15s ease;
+  box-shadow: 0 6px 20px rgba(255, 107, 44, 0.40);
+  text-decoration: none;
+  white-space: nowrap;
+  letter-spacing: 0.01em;
 }
 
-::-webkit-scrollbar-track {
-  background: #FFF0E6;
+.btn-primary:hover {
+  background: var(--primary-dark);
+  box-shadow: 0 8px 28px rgba(255, 107, 44, 0.50);
+  transform: translateY(-2px);
 }
 
-::-webkit-scrollbar-thumb {
-  background: #FF6B2C;
-  border-radius: 4px;
+.btn-primary:active {
+  transform: translateY(0);
+  box-shadow: 0 2px 8px rgba(255, 107, 44, 0.30);
 }
 
-::-webkit-scrollbar-thumb:hover {
-  background: #FFB347;
+.btn-secondary {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  gap: 8px;
+  padding: 12px 24px;
+  background: transparent;
+  color: var(--text-muted);
+  font-family: var(--font-body);
+  font-weight: 700;
+  font-size: 15px;
+  border: 2px solid var(--border);
+  border-radius: var(--radius-full);
+  cursor: pointer;
+  transition: all 0.15s ease;
 }
 
-/* Smoothing for animations */
-.will-animate {
-  will-change: transform, opacity;
+.btn-secondary:hover {
+  border-color: var(--primary);
+  color: var(--primary);
+  background: var(--primary-light);
 }
 
-/* Selection color */
-::selection {
-  background-color: #FF6B2C;
-  color: #FFF8F0;
+/* ==============================
+   STEP TYPOGRAPHY
+============================== */
+
+.step-title {
+  font-family: var(--font-display);
+  font-size: clamp(28px, 5vw, 42px);
+  color: var(--chocolate);
+  line-height: 1.15;
+  font-weight: 400; /* Pacifico is always 400 */
+}
+
+.step-label {
+  font-family: var(--font-body);
+  font-size: 12px;
+  font-weight: 800;
+  color: var(--text-muted);
+  text-transform: uppercase;
+  letter-spacing: 0.1em;
+}
+
+/* ==============================
+   CARD BASE
+============================== */
+
+.card {
+  background: var(--card);
+  border-radius: var(--radius-lg);
+  border: 2px solid var(--border);
+  box-shadow: var(--shadow-card);
+}
+
+/* ==============================
+   SCROLLBAR
+============================== */
+
+::-webkit-scrollbar { width: 6px; }
+::-webkit-scrollbar-track { background: var(--bg); }
+::-webkit-scrollbar-thumb { background: var(--border); border-radius: 3px; }
+::-webkit-scrollbar-thumb:hover { background: var(--primary); }
+
+::selection { background: var(--primary); color: white; }
+
+/* ==============================
+   ANIMATIONS
+============================== */
+
+@keyframes float {
+  0%, 100% { transform: translateY(0px); }
+  50%       { transform: translateY(-8px); }
+}
+
+@keyframes pulse-ring {
+  0%   { box-shadow: 0 0 0 0 rgba(255, 107, 44, 0.4); }
+  70%  { box-shadow: 0 0 0 14px rgba(255, 107, 44, 0); }
+  100% { box-shadow: 0 0 0 0 rgba(255, 107, 44, 0); }
 }

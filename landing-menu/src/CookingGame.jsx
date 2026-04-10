@@ -1,4 +1,5 @@
 import { motion, AnimatePresence } from 'framer-motion'
+import { useNavigate } from 'react-router-dom'
 import { useWaffleOrder } from './game-hooks/useWaffleOrder'
 import ProgressBar from './game-components/ui/ProgressBar'
 import AnimatedWaffle from './game-components/ui/AnimatedWaffle'
@@ -14,14 +15,15 @@ import Step7_Delivery from './game-components/steps/Step7_Delivery'
 import StepComplete from './game-components/steps/StepComplete'
 
 const pageVariants = {
-  enter: { opacity: 0, scale: 0.98, y: 15 },
-  center: { opacity: 1, scale: 1, y: 0, transition: { type: 'spring', bounce: 0, duration: 0.4 } },
-  exit: { opacity: 0, scale: 0.95, y: -10, transition: { duration: 0.2 } },
+  enter: { opacity: 0, y: 18 },
+  center: { opacity: 1, y: 0, transition: { type: 'spring', bounce: 0, duration: 0.38 } },
+  exit: { opacity: 0, y: -10, transition: { duration: 0.18 } },
 }
 
 export default function App() {
   const { order, setField, nextStep, prevStep, goToStep, reset } = useWaffleOrder()
   const step = order.currentStep
+  const navigate = useNavigate()
 
   const selectAndNext = (field) => (value) => {
     setField(field, value)
@@ -52,32 +54,58 @@ export default function App() {
 
   return (
     <div className="min-h-dvh flex flex-col bg-[var(--bg)] text-[var(--text)]">
+
+      {/* Top brand bar — only on intro screen */}
+      {!showChrome && (
+        <div className="w-full bg-white border-b-2 border-[var(--border)] px-4 py-3 flex items-center justify-between">
+          <button
+            onClick={() => navigate('/')}
+            className="flex items-center gap-1.5 text-[var(--text-muted)] hover:text-[var(--primary)] text-[13px] font-bold transition-colors"
+          >
+            <span>&larr;</span> Menú
+          </button>
+          <span
+            className="text-[var(--primary)] text-[18px]"
+            style={{ fontFamily: 'var(--font-display)' }}
+          >
+            🧇 Punto Waffles
+          </span>
+          <div className="w-12" />
+        </div>
+      )}
+
+      {/* Progress bar */}
       {showChrome && <ProgressBar currentStep={step} goToStep={goToStep} />}
 
-      <div className={`flex-1 flex flex-col max-w-4xl mx-auto w-full`}>
+      <div className="flex-1 flex flex-col max-w-4xl mx-auto w-full">
 
-        {/* Waffle Builder Panel - Top Center */}
+        {/* Waffle preview panel */}
         {showChrome && (
-          <div className="w-full flex flex-col items-center justify-center p-4 sm:p-6 gap-3 border-b border-[var(--border)]">
-            <div className="w-[160px] sm:w-[200px] mx-auto">
+          <div className="w-full flex flex-col items-center py-5 px-4 gap-2 border-b-2 border-[var(--border)] bg-white">
+            <p
+              className="text-[13px] font-black text-[var(--text-muted)] uppercase tracking-widest"
+            >
+              Tu waffle
+            </p>
+            <div className="w-[130px] sm:w-[160px] mx-auto">
               <AnimatedWaffle order={order} />
             </div>
           </div>
         )}
 
-        {/* Content Area */}
+        {/* Content */}
         <div className={`flex-1 flex flex-col p-4 sm:p-6 md:p-8 ${!showChrome ? 'items-center justify-center' : ''}`}>
 
-          <div className="w-full max-w-2xl mx-auto mb-4 min-h-[40px]">
-            {/* Global Back Button */}
+          {/* Back button */}
+          <div className="w-full max-w-2xl mx-auto mb-4 min-h-[36px]">
             {showChrome && step > 0 && step < 9 && (
-              <button 
-                onClick={prevStep} 
-                className="flex items-center gap-2 text-[var(--text-muted)] hover:text-[var(--primary)] hover:bg-[var(--primary-light)] px-3 py-1.5 rounded-full text-[13px] font-bold transition-all w-fit group"
+              <button
+                onClick={prevStep}
+                className="flex items-center gap-2 text-[var(--text-muted)] hover:text-[var(--primary)] text-[13px] font-bold transition-colors group"
               >
-                <div className="bg-[var(--border)] group-hover:bg-[var(--primary)] text-white rounded-full w-6 h-6 flex items-center justify-center transition-colors">
-                  <span aria-hidden="true" className="text-[12px] leading-none mb-0.5">&larr;</span>
-                </div>
+                <span className="w-7 h-7 rounded-full border-2 border-[var(--border)] group-hover:border-[var(--primary)] flex items-center justify-center text-[11px] transition-colors">
+                  &larr;
+                </span>
                 Paso anterior
               </button>
             )}
@@ -90,7 +118,7 @@ export default function App() {
               initial="enter"
               animate="center"
               exit="exit"
-              className="w-full max-w-2xl mx-auto px-2 sm:px-4 py-4"
+              className="w-full max-w-2xl mx-auto px-1 sm:px-2 py-2"
             >
               {renderStep()}
             </motion.div>

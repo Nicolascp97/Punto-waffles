@@ -10,7 +10,7 @@ export default function Step2_Fruit({ selected, onSelect, onNext }) {
       next = current.filter(i => i !== id)
     } else {
       if (current.length >= 3) {
-        next = [...current.slice(1), id] // Keep max 3
+        next = [...current.slice(1), id]
       } else {
         next = [...current, id]
       }
@@ -19,7 +19,7 @@ export default function Step2_Fruit({ selected, onSelect, onNext }) {
   }
 
   return (
-    <div className="space-y-8 relative">
+    <div className="space-y-6 relative">
       <div className="text-center md:text-left">
         <h2 className="step-title mb-2">Frutas frescas</h2>
         <p className="text-[16px] text-[var(--text-muted)] font-semibold">
@@ -27,29 +27,35 @@ export default function Step2_Fruit({ selected, onSelect, onNext }) {
         </p>
       </div>
 
-      <div className="flex gap-2 text-sm font-bold bg-[var(--primary-light)] text-[var(--primary-dark)] px-4 py-2 rounded-xl mb-4 w-fit mx-auto md:mx-0">
-        <span className="text-[18px]">💡</span> Tip: ¡Combina plátano con frutilla!
+      <div
+        className="flex items-center gap-2 text-[13px] font-black px-4 py-2.5 rounded-xl w-fit"
+        style={{ background: 'var(--primary-light)', color: 'var(--primary-dark)' }}
+      >
+        <span className="text-[16px]">💡</span>
+        <span>Tip: ¡Combina plátano con frutilla!</span>
       </div>
 
-      <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-4 pb-24 lg:pb-0">
+      <div className="grid grid-cols-1 sm:grid-cols-2 gap-3 pb-24 lg:pb-0">
         {FRUITS.map(item => (
-          <div key={item.id} className="bg-white rounded-2xl p-3 shadow-sm border border-green-100 hover:border-green-300 transition-all duration-200">
-            <IngredientCard
-              label={item.label}
-              color={item.color}
-              emoji={item.emoji}
-              selected={current.includes(item.id)}
-              onClick={() => handleSelect(item.id)}
-              multi={true}
-            />
-          </div>
+          <IngredientCard
+            key={item.id}
+            label={item.label}
+            color={item.color}
+            emoji={item.emoji}
+            selected={current.includes(item.id)}
+            onClick={() => handleSelect(item.id)}
+            multi={true}
+          />
         ))}
       </div>
 
-      <div className="fixed lg:static bottom-0 left-0 w-full p-4 lg:p-0 mt-8 bg-gradient-to-t from-[var(--bg)] via-[var(--bg)] to-transparent lg:bg-none z-20 flex gap-4">
-         <button onClick={onNext} className={`btn-primary flex-1 shadow-lg ${current.length === 0 ? 'bg-[var(--border-strong)] text-white/90 shadow-none' : ''}`}>
-           {current.length === 0 ? 'Continuar sin fruta ⏭️' : 'Confirmar frutas ✓'}
-         </button>
+      <div className="fixed lg:static bottom-0 left-0 w-full p-4 lg:p-0 mt-8 bg-gradient-to-t from-[var(--bg)] via-[var(--bg)] to-transparent lg:bg-none z-20">
+        <button
+          onClick={onNext}
+          className={`btn-primary w-full shadow-lg ${current.length === 0 ? 'opacity-70' : ''}`}
+        >
+          {current.length === 0 ? 'Continuar sin fruta ⏭️' : `Confirmar ${current.length} fruta${current.length > 1 ? 's' : ''} ✓`}
+        </button>
       </div>
     </div>
   )

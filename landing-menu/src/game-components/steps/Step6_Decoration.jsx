@@ -11,26 +11,21 @@ export default function Step6_Decoration({ selected, onSelect, onNext }) {
         </p>
       </div>
 
-      <div className="grid grid-cols-1 sm:grid-cols-2 gap-4 pb-24 lg:pb-0">
-
-        <div className="bg-white rounded-2xl p-3 shadow-sm border border-yellow-100 hover:border-yellow-300 transition-all duration-200">
-          <IngredientCard
-            label="Sin Topping"
-            emoji="🚫"
-            selected={selected === 'sin_deco'}
-            onClick={() => onSelect('sin_deco')}
-          />
-        </div>
-
+      <div className="grid grid-cols-1 sm:grid-cols-2 gap-3 pb-24 lg:pb-0">
+        <IngredientCard
+          label="Sin Topping"
+          emoji="🚫"
+          selected={selected === 'sin_deco'}
+          onClick={() => onSelect('sin_deco')}
+        />
         {DECORATIONS.map(item => (
-          <div key={item.id} className="bg-white rounded-2xl p-3 shadow-sm border border-yellow-100 hover:border-yellow-300 transition-all duration-200">
-            <IngredientCard
-              label={item.label}
-              emoji={item.emoji}
-              selected={selected === item.id}
-              onClick={() => onSelect(item.id)}
-            />
-          </div>
+          <IngredientCard
+            key={item.id}
+            label={item.label}
+            emoji={item.emoji}
+            selected={selected === item.id}
+            onClick={() => onSelect(item.id)}
+          />
         ))}
       </div>
 
