@@ -1,7 +1,7 @@
 {
-  "buildCommand": "cd landing-menu && npm run build",
+  "buildCommand": "cd landing-menu && npm ci && npm run build",
   "devCommand": "cd landing-menu && npm run dev",
-  "installCommand": "cd landing-menu && npm install",
+  "installCommand": "cd landing-menu && npm ci",
   "framework": "vite",
   "outputDirectory": "landing-menu/dist",
   "public": true,
