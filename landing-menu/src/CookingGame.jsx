@@ -54,20 +54,20 @@ export default function App() {
     <div className="min-h-dvh flex flex-col bg-[var(--bg)] text-[var(--text)]">
       {showChrome && <ProgressBar currentStep={step} goToStep={goToStep} />}
 
-      <div className={`flex-1 flex flex-col-reverse md:flex-row max-w-7xl mx-auto w-full`}>
+      <div className={`flex-1 flex flex-col max-w-4xl mx-auto w-full`}>
 
-        {/* Waffle Builder Sticky Panel */}
+        {/* Waffle Builder Panel - Top Center */}
         {showChrome && (
-          <div className="w-full md:w-[320px] lg:w-[380px] md:h-dvh shrink-0 border-t md:border-t-0 md:border-l border-[var(--border)] bg-gradient-to-b from-[var(--card)] to-[var(--bg)] flex flex-col items-center justify-center p-3 sm:p-5 md:p-8 sticky bottom-0 md:static md:order-last z-50 shadow-sm gap-2 md:gap-4 backdrop-blur-xl">
-            <div className="w-[180px] sm:w-[220px] md:w-[280px] mx-auto">
+          <div className="w-full flex flex-col items-center justify-center p-4 sm:p-6 gap-3 border-b border-[var(--border)]">
+            <div className="w-[160px] sm:w-[200px] mx-auto">
               <AnimatedWaffle order={order} />
             </div>
           </div>
         )}
 
         {/* Content Area */}
-        <div className={`flex-1 flex flex-col p-5 md:p-8 lg:p-14 ${!showChrome ? 'items-center justify-center' : ''}`}>
-          
+        <div className={`flex-1 flex flex-col p-4 sm:p-6 md:p-8 ${!showChrome ? 'items-center justify-center' : ''}`}>
+
           <div className="w-full max-w-2xl mx-auto mb-4 min-h-[40px]">
             {/* Global Back Button */}
             {showChrome && step > 0 && step < 9 && (
@@ -90,7 +90,7 @@ export default function App() {
               initial="enter"
               animate="center"
               exit="exit"
-              className="w-full max-w-2xl mx-auto"
+              className="w-full max-w-2xl mx-auto px-2 sm:px-4 py-4"
             >
               {renderStep()}
             </motion.div>

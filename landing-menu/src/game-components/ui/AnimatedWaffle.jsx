@@ -168,40 +168,19 @@ function DecorationLayer({ type }) {
   )
 }
 
-/* ─── Waffle Base ─── */
-function WaffleBase() {
-  return (
-    <svg viewBox="0 0 300 300" style={{ position: 'absolute', inset: 0, width: '100%', height: '100%' }}>
-      {/* Waffle grid pattern */}
-      <defs>
-        <pattern id="waffle-grid" patternUnits="userSpaceOnUse" width="30" height="30">
-          <rect x="0" y="0" width="30" height="30" fill="#fdd89d" />
-          <path d="M 30 0 L 0 0 0 30" fill="none" stroke="#f9c74f" strokeWidth="0.5" />
-        </pattern>
-      </defs>
-      {/* Base circle */}
-      <circle cx="150" cy="150" r="110" fill="url(#waffle-grid)" />
-      {/* Shadow */}
-      <circle cx="150" cy="150" r="110" fill="rgba(0,0,0,0.05)" />
-      {/* Shine highlight */}
-      <ellipse cx="110" cy="110" rx="45" ry="45" fill="rgba(255,255,255,0.15)" />
-    </svg>
-  )
-}
-
 /* ─── Main Component ─── */
 export default function AnimatedWaffle({ order }) {
   const hasType  = !!order.type
   const hasFruit = Array.isArray(order.fruit) ? order.fruit.length > 0 : !!order.fruit
 
   return (
-    <div className="flex flex-col items-center gap-3 w-full max-w-sm sm:max-w-md">
+    <div className="flex flex-col items-center gap-2 w-full">
       {/* Waffle container */}
       <div
-        className="relative overflow-hidden w-full aspect-square rounded-2xl"
+        className="relative overflow-hidden w-[120px] h-[120px] sm:w-[140px] sm:h-[140px] rounded-xl"
         style={{
           background: '#fef3e2',
-          boxShadow: 'inset 0 0 0 4px rgba(255,255,255,0.7), 0 8px 32px rgba(90,50,10,0.18)',
+          boxShadow: 'inset 0 0 0 3px rgba(255,255,255,0.7), 0 4px 16px rgba(90,50,10,0.12)',
         }}
       >
         {/* Empty state */}
@@ -212,28 +191,25 @@ export default function AnimatedWaffle({ order }) {
               initial={{ opacity: 0 }}
               animate={{ opacity: 1 }}
               exit={{ opacity: 0 }}
-              className="absolute inset-0 flex flex-col items-center justify-center gap-2"
+              className="absolute inset-0 flex flex-col items-center justify-center gap-1"
             >
-              <div style={{ fontSize: '56px', animation: 'float 3s ease-in-out infinite' }}>🧇</div>
-              <p style={{ color: 'var(--text-muted)', fontSize: '13px', fontWeight: 700, textAlign: 'center', padding: '0 16px' }}>
-                Tu waffle aparecerá<br />aquí
-              </p>
+              <div style={{ fontSize: '40px', animation: 'float 3s ease-in-out infinite' }}>🧇</div>
             </motion.div>
           )}
         </AnimatePresence>
 
-        {/* Waffle base SVG */}
+        {/* Waffle base photo */}
         <AnimatePresence>
           {hasType && (
-            <motion.div
-              key="waffle-base"
+            <motion.img
+              key="waffle-photo"
+              src="/img/waffle-base.png"
+              alt="Waffle base"
               initial={{ opacity: 0, scale: 0.8 }}
               animate={{ opacity: 1, scale: 1, transition: SPRING }}
               exit={{ opacity: 0 }}
-              style={{ position: 'absolute', inset: 0, width: '100%', height: '100%' }}
-            >
-              <WaffleBase />
-            </motion.div>
+              style={{ position: 'absolute', inset: 0, width: '100%', height: '100%', objectFit: 'cover' }}
+            />
           )}
         </AnimatePresence>
 
@@ -261,12 +237,12 @@ export default function AnimatedWaffle({ order }) {
             key="status"
             initial={{ opacity: 0, y: 4 }}
             animate={{ opacity: 1, y: 0 }}
-            className="mt-1 px-4 py-2 bg-white/70 backdrop-blur-md border border-[var(--border)] rounded-xl shadow-sm rounded-full flex items-center justify-center"
+            className="mt-2 px-3 py-1.5 bg-white/70 backdrop-blur-md border border-[var(--border)] rounded-full flex items-center justify-center"
           >
-            <p style={{ fontSize: '13px', color: 'var(--text-muted)', fontWeight: 800, margin: 0 }}>
+            <p style={{ fontSize: '12px', color: 'var(--text-muted)', fontWeight: 700, margin: 0, textAlign: 'center' }}>
               {order.currentStep < 9
-                ? `Construyendo... paso ${order.currentStep} de 8 🍳`
-                : '¡Tu waffle está listo! 🎉'}
+                ? `Paso ${order.currentStep} de 8 🍳`
+                : '¡Listo! 🎉'}
             </p>
           </motion.div>
         )}
