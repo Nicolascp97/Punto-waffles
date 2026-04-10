@@ -11,47 +11,70 @@ export default function Step1_Type({ onSelect }) {
       </div>
 
       <div className="grid grid-cols-1 sm:grid-cols-2 gap-5">
+
         {/* DULCE */}
         <motion.button
           whileHover={{ y: -4 }}
           whileTap={{ scale: 0.97 }}
           onClick={() => onSelect('sweet')}
-          className="text-left bg-white border-2 border-[var(--primary-light)] rounded-[var(--radius-2xl)] p-8 shadow-sm hover:shadow-md hover:border-[var(--primary)] cursor-pointer transition-all duration-200 group relative overflow-hidden"
+          className="text-left bg-white border-2 border-[var(--border)] rounded-[var(--radius-2xl)] p-8 shadow-sm hover:shadow-md hover:border-[var(--primary)] cursor-pointer transition-all duration-200 group relative overflow-hidden"
         >
-          {/* Tag */}
-          <div className="absolute top-6 right-6 bg-[var(--primary-light)] text-[var(--primary)] font-bold text-[12px] px-3 py-1 rounded-full uppercase tracking-wider">
+          {/* Popular tag */}
+          <div
+            className="absolute top-5 right-5 text-[11px] font-black px-3 py-1 rounded-full uppercase tracking-widest"
+            style={{ background: 'var(--primary-light)', color: 'var(--primary)' }}
+          >
             Popular
           </div>
 
           <div className="text-5xl mb-4">🍯</div>
-          <h3 className="font-display text-[28px] font-bold text-[var(--chocolate)] group-hover:text-[var(--primary)] mb-2 transition-colors">
+          <h3
+            className="text-[28px] font-normal text-[var(--chocolate)] group-hover:text-[var(--primary)] mb-2 transition-colors"
+            style={{ fontFamily: 'var(--font-display)' }}
+          >
             Waffle Dulce
           </h3>
           <p className="text-[14px] text-[var(--text-muted)] font-semibold mb-6">
             Frutas frescas, cremas, helado y salsas a elección. ¡El clásico!
           </p>
-          
-          <div className="inline-flex font-bold text-[14px] text-[var(--primary)] items-center gap-1 group-hover:gap-2 transition-all">
-            Elegir dulce <span aria-hidden="true">&rarr;</span>
+          <div className="inline-flex font-black text-[14px] text-[var(--primary)] items-center gap-1 group-hover:gap-2 transition-all">
+            Armar dulce <span aria-hidden="true">&rarr;</span>
           </div>
         </motion.button>
 
-        {/* SALADO - locked */}
-        <div className="text-left bg-[var(--bg)] border-2 border-[var(--border)] rounded-[var(--radius-2xl)] p-8 opacity-60 relative overflow-hidden">
-          <div className="absolute top-6 right-6 bg-[var(--border)] text-[var(--text-muted)] font-bold text-[12px] px-3 py-1 rounded-full uppercase tracking-wider">
-            Pronto
+        {/* SALADO */}
+        <motion.button
+          whileHover={{ y: -4 }}
+          whileTap={{ scale: 0.97 }}
+          onClick={() => onSelect('salado')}
+          className="text-left bg-white border-2 border-[var(--border)] rounded-[var(--radius-2xl)] p-8 shadow-sm hover:shadow-md hover:border-[var(--frambuesa)] cursor-pointer transition-all duration-200 group relative overflow-hidden"
+        >
+          {/* Salado tag */}
+          <div
+            className="absolute top-5 right-5 text-[11px] font-black px-3 py-1 rounded-full uppercase tracking-widest"
+            style={{ background: 'var(--frambuesa-light)', color: 'var(--frambuesa)' }}
+          >
+            Nuevo
           </div>
-          <div className="text-5xl mb-4 grayscale">🧀</div>
-          <h3 className="font-display text-[28px] font-bold text-[var(--text-muted)] mb-2">
+
+          <div className="text-5xl mb-4">🧀</div>
+          <h3
+            className="text-[28px] font-normal text-[var(--chocolate)] group-hover:text-[var(--frambuesa)] mb-2 transition-colors"
+            style={{ fontFamily: 'var(--font-display)' }}
+          >
             Waffle Salado
           </h3>
           <p className="text-[14px] text-[var(--text-muted)] font-semibold mb-6">
-            Queso derretido, jamón, huevo y especias. Perfecto para un antojo.
+            Churrasco, Lomito, Pollo, Champiñón o Mechada. ¡Contundente y sabroso!
           </p>
-          <div className="inline-flex font-bold text-[14px] text-[var(--text-light)] items-center">
-            Próximamente 🔒
+          <div
+            className="inline-flex font-black text-[14px] items-center gap-1 group-hover:gap-2 transition-all"
+            style={{ color: 'var(--frambuesa)' }}
+          >
+            Elegir salado <span aria-hidden="true">&rarr;</span>
           </div>
-        </div>
+        </motion.button>
+
       </div>
     </div>
   )

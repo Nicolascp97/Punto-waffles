@@ -72,6 +72,53 @@ export const ICE_CREAMS_ZERO = [
   { id: 'frutos_bosque',    label: 'Frutos del Bosque 0%', emoji: '🫐', color: '#CE93D8' },
 ]
 
+// ── Waffles Salados ──────────────────────────────────────────
+export const WAFFLES_SALADO = [
+  {
+    id: 'churrasco',
+    label: 'Churrasco',
+    emoji: '🥩',
+    color: '#B71C1C',
+    desc: 'El clásico con todo',
+    ingredients: ['Churrasco', 'Palta', 'Tomate', 'Queso Cheddar', 'Papa Hilo Opcional', 'Aderezo'],
+  },
+  {
+    id: 'lomito',
+    label: 'Lomito',
+    emoji: '🍖',
+    color: '#5D4037',
+    desc: 'Jugoso y ahumado',
+    ingredients: ['Lomito Salteado en Salsa BBQ', 'Palta', 'Tomate', 'Queso Cheddar', 'Papa Hilo Opcional', 'Aderezo'],
+  },
+  {
+    id: 'pollo',
+    label: 'Pollo',
+    emoji: '🍗',
+    color: '#F57F17',
+    desc: 'Suave y cremoso',
+    ingredients: ['Pollo a la Crema', 'Palta', 'Tomate', 'Papa Hilo Opcional', 'Aderezo'],
+  },
+  {
+    id: 'champinon',
+    label: 'Champiñón',
+    emoji: '🍄',
+    color: '#4E342E',
+    desc: 'Opción vegetariana',
+    ingredients: ['Champiñones a la Crema', 'Palta', 'Tomate', 'Papa Hilo Opcional', 'Aderezo'],
+  },
+  {
+    id: 'mechada',
+    label: 'Mechada',
+    emoji: '🫕',
+    color: '#880E4F',
+    desc: 'El más completo',
+    ingredients: ['Mechada', 'Queso Mantecoso', 'Lechuga', 'Cebolla Caramelizada', 'Tomate Cherry', 'Papa Hilo Opcional', 'Aderezo'],
+  },
+]
+
+export const PRICE_SALADO = 6200
+export const PRICE_DULCE  = 5500
+
 export const STEP_LABELS = [
   'Inicio',
   '🧇 Tipo',

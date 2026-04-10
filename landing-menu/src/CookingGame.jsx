@@ -12,6 +12,7 @@ import Step4_IceCream from './game-components/steps/Step4_IceCream'
 import Step5_Sauce from './game-components/steps/Step5_Sauce'
 import Step6_Decoration from './game-components/steps/Step6_Decoration'
 import Step7_Delivery from './game-components/steps/Step7_Delivery'
+import StepSalado from './game-components/steps/StepSalado'
 import StepComplete from './game-components/steps/StepComplete'
 
 const pageVariants = {
@@ -20,10 +21,14 @@ const pageVariants = {
   exit: { opacity: 0, y: -10, transition: { duration: 0.18 } },
 }
 
-export default function App() {
+// Salado flow: 0=intro, 1=type, 2=salado picker, 3=delivery, 4=complete
+// Dulce flow:  0=intro, 1=type, 2=base, 3=fruit, 4=cream, 5=icecream, 6=sauce, 7=deco, 8=delivery, 9=complete
+
+export default function CookingGame() {
   const { order, setField, nextStep, prevStep, goToStep, reset } = useWaffleOrder()
   const step = order.currentStep
   const navigate = useNavigate()
+  const isSalado = order.type === 'salado'
 
   const selectAndNext = (field) => (value) => {
     setField(field, value)
@@ -35,6 +40,17 @@ export default function App() {
   }
 
   function renderStep() {
+    // ── SALADO FLOW ──────────────────────────────────────
+    if (isSalado && step >= 2) {
+      switch (step) {
+        case 2: return <StepSalado key="ss" selected={order.salaWaffle} onSelect={selectOnly('salaWaffle')} onNext={nextStep} />
+        case 3: return <Step7_Delivery key="sd" onSelect={selectAndNext('delivery')} />
+        case 4: return <StepComplete key="sc" order={order} onReset={reset} />
+        default: return null
+      }
+    }
+
+    // ── DULCE FLOW ───────────────────────────────────────
     switch (step) {
       case 0: return <Step0_Intro key="s0" onStart={nextStep} />
       case 1: return <Step1_Type key="s1" onSelect={selectAndNext('type')} />
@@ -51,11 +67,14 @@ export default function App() {
   }
 
   const showChrome = step > 0
+  // Complete step: dulce=9, salado=4
+  const isComplete = (!isSalado && step === 9) || (isSalado && step === 4)
+  const showWafflePreview = showChrome && !isComplete && !isSalado
 
   return (
     <div className="min-h-dvh flex flex-col bg-[var(--bg)] text-[var(--text)]">
 
-      {/* Top brand bar — only on intro screen */}
+      {/* Brand bar on intro screen */}
       {!showChrome && (
         <div className="w-full bg-white border-b-2 border-[var(--border)] px-4 py-3 flex items-center justify-between">
           <button
@@ -64,10 +83,7 @@ export default function App() {
           >
             <span>&larr;</span> Menú
           </button>
-          <span
-            className="text-[var(--primary)] text-[18px]"
-            style={{ fontFamily: 'var(--font-display)' }}
-          >
+          <span className="text-[var(--primary)] text-[18px]" style={{ fontFamily: 'var(--font-display)' }}>
             🧇 Punto Waffles
           </span>
           <div className="w-12" />
@@ -75,16 +91,20 @@ export default function App() {
       )}
 
       {/* Progress bar */}
-      {showChrome && <ProgressBar currentStep={step} goToStep={goToStep} />}
+      {showChrome && (
+        <ProgressBar
+          currentStep={step}
+          goToStep={goToStep}
+          type={order.type}
+        />
+      )}
 
       <div className="flex-1 flex flex-col max-w-4xl mx-auto w-full">
 
-        {/* Waffle preview panel */}
-        {showChrome && (
+        {/* Waffle preview (dulce only, not on complete) */}
+        {showWafflePreview && (
           <div className="w-full flex flex-col items-center py-5 px-4 gap-2 border-b-2 border-[var(--border)] bg-white">
-            <p
-              className="text-[13px] font-black text-[var(--text-muted)] uppercase tracking-widest"
-            >
+            <p className="text-[11px] font-black text-[var(--text-muted)] uppercase tracking-widest">
               Tu waffle
             </p>
             <div className="w-[130px] sm:w-[160px] mx-auto">
@@ -93,12 +113,12 @@ export default function App() {
           </div>
         )}
 
-        {/* Content */}
+        {/* Content area */}
         <div className={`flex-1 flex flex-col p-4 sm:p-6 md:p-8 ${!showChrome ? 'items-center justify-center' : ''}`}>
 
           {/* Back button */}
           <div className="w-full max-w-2xl mx-auto mb-4 min-h-[36px]">
-            {showChrome && step > 0 && step < 9 && (
+            {showChrome && step > 0 && !isComplete && (
               <button
                 onClick={prevStep}
                 className="flex items-center gap-2 text-[var(--text-muted)] hover:text-[var(--primary)] text-[13px] font-bold transition-colors group"

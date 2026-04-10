@@ -1,19 +1,98 @@
 import { STEP_LABELS } from '../../game-data/menu'
 
-const STEP_EMOJIS = ['', '🧇', '🫙', '🍓', '🍦', '🍨', '🍯', '✨', '📦']
+// Dulce: 8 steps, step emojis indexed 1–8
+const DULCE_EMOJIS = ['', '🧇', '🍯', '🍓', '🍦', '🍨', '🫙', '✨', '📦']
 
-export default function ProgressBar({ currentStep, goToStep }) {
+// Salado: 3 steps (tipo, waffle, entrega) — step 1, 2, 3
+const SALADO_STEPS = [
+  { step: 1, emoji: '🧇', label: 'Tipo' },
+  { step: 2, emoji: '🧀', label: 'Tu Waffle' },
+  { step: 3, emoji: '📦', label: 'Entrega' },
+]
+
+export default function ProgressBar({ currentStep, goToStep, type }) {
+  const isSalado = type === 'salado'
+
+  if (isSalado) {
+    return (
+      <div className="w-full bg-white border-b-2 border-[var(--border)] sticky top-0 z-50 shadow-sm">
+        <div className="max-w-4xl mx-auto px-4 sm:px-6 py-3">
+          <div className="flex items-center justify-between gap-2">
+            {SALADO_STEPS.map(({ step, emoji, label }, idx) => {
+              const done = currentStep > step
+              const active = currentStep === step
+
+              return (
+                <div key={step} className="flex-1 flex flex-col items-center gap-1">
+                  <button
+                    onClick={done || active ? () => goToStep(step) : undefined}
+                    className={`
+                      flex items-center gap-1.5 px-3 py-1.5 rounded-full text-[12px] font-black transition-all duration-200 w-full justify-center
+                      ${active
+                        ? 'text-white shadow-sm'
+                        : done
+                        ? 'cursor-pointer hover:opacity-80'
+                        : 'cursor-default opacity-40'
+                      }
+                    `}
+                    style={active
+                      ? { background: 'var(--frambuesa)' }
+                      : done
+                      ? { background: 'var(--frambuesa-light)', color: 'var(--frambuesa)' }
+                      : {}
+                    }
+                  >
+                    <span className="text-[14px] leading-none">{done ? '✓' : emoji}</span>
+                    <span className="uppercase tracking-wide">{label}</span>
+                  </button>
+
+                  {/* Connector line */}
+                  {idx < SALADO_STEPS.length - 1 && (
+                    <div className="hidden" /> // spacer handled by flex
+                  )}
+                </div>
+              )
+            })}
+          </div>
+
+          {/* Progress bar track */}
+          <div className="flex gap-1.5 h-2 mt-2.5">
+            {SALADO_STEPS.map(({ step }) => {
+              const isActive = currentStep === step
+              const isDone = currentStep > step
+              return (
+                <div key={step} className="flex-1 rounded-full bg-[var(--border)]">
+                  <div
+                    className="w-full h-full rounded-full transition-all duration-300"
+                    style={{
+                      backgroundColor: isActive
+                        ? 'var(--frambuesa)'
+                        : isDone
+                        ? '#F9A8D4'
+                        : 'transparent',
+                    }}
+                  />
+                </div>
+              )
+            })}
+          </div>
+        </div>
+      </div>
+    )
+  }
+
+  // ── DULCE FLOW ───────────────────────────────────────────
   const totalSteps = 8
 
   return (
     <div className="w-full bg-white border-b-2 border-[var(--border)] sticky top-0 z-50 shadow-sm">
       <div className="max-w-4xl mx-auto px-4 sm:px-6 py-3">
 
-        {/* Mobile View */}
+        {/* Mobile */}
         <div className="flex md:hidden flex-col gap-2.5">
           <div className="flex items-center justify-between">
             <div className="flex items-center gap-2">
-              <span className="text-[20px]">{STEP_EMOJIS[currentStep] || '🧇'}</span>
+              <span className="text-[20px]">{DULCE_EMOJIS[currentStep] || '🧇'}</span>
               <span
                 className="font-black text-[15px] text-[var(--primary)]"
                 style={{ fontFamily: 'var(--font-display)' }}
@@ -25,26 +104,17 @@ export default function ProgressBar({ currentStep, goToStep }) {
               {currentStep > totalSteps ? '¡Completado!' : `${currentStep} / ${totalSteps}`}
             </span>
           </div>
-
-          {/* Progress dots mobile */}
           <div className="flex gap-1.5 h-2.5">
             {Array.from({ length: totalSteps }, (_, i) => {
               const step = i + 1
               const isActive = currentStep === step
               const isDone = currentStep > step
               return (
-                <div
-                  key={step}
-                  className="flex-1 rounded-full overflow-hidden bg-[var(--border)]"
-                >
+                <div key={step} className="flex-1 rounded-full bg-[var(--border)]">
                   <div
                     className="w-full h-full transition-all duration-300 rounded-full"
                     style={{
-                      backgroundColor: isActive
-                        ? 'var(--primary)'
-                        : isDone
-                        ? 'var(--honey)'
-                        : 'transparent',
+                      backgroundColor: isActive ? 'var(--primary)' : isDone ? 'var(--honey)' : 'transparent',
                     }}
                   />
                 </div>
@@ -53,7 +123,7 @@ export default function ProgressBar({ currentStep, goToStep }) {
           </div>
         </div>
 
-        {/* Desktop View */}
+        {/* Desktop */}
         <div className="hidden md:flex items-center gap-1">
           {STEP_LABELS.slice(1, totalSteps + 1).map((label, i) => {
             const step = i + 1
@@ -77,7 +147,7 @@ export default function ProgressBar({ currentStep, goToStep }) {
                 `}
               >
                 <span className="text-[14px] leading-none">
-                  {done ? '✓' : STEP_EMOJIS[step] || step}
+                  {done ? '✓' : DULCE_EMOJIS[step] || step}
                 </span>
                 <span className="hidden lg:inline uppercase tracking-wide">{label}</span>
               </button>
